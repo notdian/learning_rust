@@ -19,15 +19,15 @@ fn quicksort<T: Ord>(slice: &mut [T]) {
 
     let mut left = 0;
     let mut right = rest.len() - 1;
-    while left <= right {
+    while right != usize::MAX && left <= right {
         if &rest[left] <= pivot {
             left += 1;
         } else if &rest[right] > pivot {
-            right -= 1;
+            right = right.wrapping_sub(1);
         } else {
             rest.swap(left, right);
             left += 1;
-            right -= 1;
+            right = right.wrapping_sub(1);
         }
     }
 
@@ -58,7 +58,7 @@ impl Sorter for QuickSort {
 
 #[test]
 fn selection_works() {
-    let mut slice = vec![2, 1, 7, 5, 3];
+    let mut slice = vec![7, 2, 5, 3, 10];
     QuickSort.sort(&mut slice);
-    assert_eq!(slice, [1, 2, 3, 5, 7]);
+    assert_eq!(slice, [2, 3, 5, 7, 10]);
 }
