@@ -1,5 +1,3 @@
-use std::vec;
-
 use super::Sorter;
 
 pub struct QuickSort;

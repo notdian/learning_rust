@@ -4,12 +4,12 @@ pub trait Sorter {
         T: Ord;
 }
 
-mod bubblesort;
-mod insertionsort;
-mod selectionsort;
+pub mod bubblesort;
+pub mod insertionsort;
+pub mod selectionsort;
 
 // Smart sorts
-mod quicksort;
+pub mod quicksort;
 
 #[cfg(test)]
 mod tests {

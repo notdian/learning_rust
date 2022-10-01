@@ -7,6 +7,9 @@ impl Sorter for BubbleSort {
     where
         T: Ord,
     {
+        if slice.len() < 2 {
+            return;
+        }
         let mut swapped = true;
 
         while swapped {

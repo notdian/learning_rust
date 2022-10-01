@@ -3,7 +3,7 @@ use super::Sorter;
 // Find the smallest element in the list , put it in the front, then do the same for the remainder
 // Uses no extra memory
 pub struct SelectionSort {
-    use_iterator: bool,
+    pub use_iterator: bool,
 }
 
 impl Sorter for SelectionSort {
