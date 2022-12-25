@@ -110,8 +110,6 @@ impl<T> Drop for RefMut<'_, T> {
 mod test {
     use crate::cell::Cell;
 
-    use super::RefCell;
-
     #[test]
     fn test1() {
         let mut rc = Cell::new(String::from("hello"));
