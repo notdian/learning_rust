@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_variables)]
 use std::mem;
 
 pub struct List<T> {
@@ -62,7 +63,7 @@ fn peek() {
     list.pop();
 
     {
-        let two: &mut i32 = list.peek_mut().expect("there should be two more element");
+        let two: &mut i32 = list.peek_mut().expect("there should be two more elements");
         //two becomes two squared
         *two = two.pow(*two as u32)
     }
