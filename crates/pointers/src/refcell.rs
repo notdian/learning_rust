@@ -105,17 +105,3 @@ impl<T> Drop for RefMut<'_, T> {
         }
     }
 }
-
-#[cfg(test)]
-mod test {
-    use crate::cell::Cell;
-
-    #[test]
-    fn test1() {
-        let mut rc = Cell::new(String::from("hello"));
-
-        rc.set(String::from("'"));
-
-        println!("{:?}", rc)
-    }
-}
