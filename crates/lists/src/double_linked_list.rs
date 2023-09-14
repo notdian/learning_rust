@@ -213,5 +213,9 @@ mod test {
         assert_eq!(&mut *list.peek_front_mut().unwrap(), &mut 3);
         assert_eq!(&*list.peek_back().unwrap(), &1);
         assert_eq!(&mut *list.peek_back_mut().unwrap(), &mut 1);
+
+        let mut _front = list.peek_front_mut();
+        let mut _back = list.peek_back_mut();
+
     }
 }
