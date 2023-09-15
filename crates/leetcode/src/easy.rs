@@ -107,7 +107,7 @@ fn evenDigits() {
 #[test]
 fn sortedSquares() {
     use std::collections::VecDeque;
-    
+
     pub fn sorted_squares(nums: Vec<i32>) -> Vec<i32> {
         let mut deque = nums.iter().map(|a| a * a).collect::<VecDeque<i32>>();
         let mut output = VecDeque::new();
@@ -124,4 +124,45 @@ fn sortedSquares() {
         output.into()
     }
     assert_eq!(sorted_squares(vec![-3, -2, 1, 4, 7]), vec![1, 4, 9, 16, 49]);
+}
+#[test]
+fn duplicateZeros() {
+    pub fn duplicate_zeros(arr: &mut Vec<i32>) {
+        let original_length = arr.len();
+        let mut zero_count = 0;
+
+        // Count the number of zeros in the original vector
+        for &num in arr.iter() {
+            if num == 0 {
+                zero_count += 1;
+            }
+        }
+
+        // If there are no zeros, no modification is required.
+        if zero_count == 0 {
+            return;
+        }
+
+        arr.resize(original_length + zero_count, 0);
+
+        let mut current_pos = original_length + zero_count - 1;
+        for _ in 0..original_length {
+            if arr[current_pos - zero_count] == 0 {
+                arr[current_pos] = 0;
+                arr[current_pos - 1] = 0;
+                current_pos -= 2;
+                zero_count -= 1;
+            } else {
+                arr[current_pos] = arr[current_pos - zero_count];
+                if current_pos > 0 {
+                    current_pos -= 1;
+                }
+            }
+        }
+        arr.resize(original_length, 0);
+    }
+
+    let mut v = vec![1, 0, 2, 3, 0, 4, 5, 0];
+    duplicate_zeros(&mut v);
+    assert_eq!(v, vec![1, 0, 0, 2, 3, 0, 0, 4]);
 }
