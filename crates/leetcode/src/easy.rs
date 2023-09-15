@@ -1,5 +1,6 @@
 #![allow(non_snake_case)]
 
+
 #[test]
 fn dian() {
     fn running_sum(nums: Vec<i32>) -> Vec<i32> {
@@ -86,7 +87,10 @@ fn middleNode() {
     listhead.next = Some(Box::new(ListNode::new(2)));
     listhead.next.as_deref_mut().unwrap().next = Some(Box::new(ListNode::new(3)));
 
-    assert_eq!(middle_node(Some(listhead.clone())),Some(listhead.next.unwrap()));
+    assert_eq!(
+        middle_node(Some(listhead.clone())),
+        Some(listhead.next.unwrap())
+    );
 }
 
 #[test]
@@ -95,5 +99,29 @@ fn evenDigits() {
         return nums.iter().map(|num| (num.ilog10()) % 2).sum();
     }
 
-    assert_eq!(find_numbers(vec![555, 901, 482, 123, 1111, 112266,1771,43210122]), 4);
+    assert_eq!(
+        find_numbers(vec![555, 901, 482, 123, 1111, 112266, 1771, 43210122]),
+        4
+    );
+}
+#[test]
+fn sortedSquares() {
+    use std::collections::VecDeque;
+    
+    pub fn sorted_squares(nums: Vec<i32>) -> Vec<i32> {
+        let mut deque = nums.iter().map(|a| a * a).collect::<VecDeque<i32>>();
+        let mut output = VecDeque::new();
+        for _ in 0..deque.len() {
+            let last = deque.back().unwrap_or(&0);
+            let front = deque.front().unwrap_or(&0);
+            if last > front {
+                output.push_front(deque.pop_back().unwrap());
+            } else {
+                output.push_front(deque.pop_front().unwrap())
+            }
+        }
+
+        output.into()
+    }
+    assert_eq!(sorted_squares(vec![-3, -2, 1, 4, 7]), vec![1, 4, 9, 16, 49]);
 }
