@@ -1,6 +1,5 @@
 #![allow(non_snake_case)]
 
-
 #[test]
 fn dian() {
     fn running_sum(nums: Vec<i32>) -> Vec<i32> {
@@ -128,14 +127,22 @@ fn sortedSquares() {
 #[test]
 fn duplicateZeros() {
     pub fn duplicate_zeros(arr: &mut Vec<i32>) {
-        let original_length = arr.len();
+        let len = arr.len();
+        let mut original_length = arr.len();
         let mut zero_count = 0;
 
         // Count the number of zeros in the original vector
-        for &num in arr.iter() {
-            if num == 0 {
+        let mut i = 0;
+        while i < original_length {
+            if arr[i] == 0 {
+                if i == original_length - 1 {
+                    arr[len - 1] = 0;
+                    zero_count -= 1;
+                }
                 zero_count += 1;
+                original_length -= 1;
             }
+            i += 1;
         }
 
         // If there are no zeros, no modification is required.
@@ -143,26 +150,27 @@ fn duplicateZeros() {
             return;
         }
 
-        arr.resize(original_length + zero_count, 0);
+        let mut current_pos = original_length - 1;
 
-        let mut current_pos = original_length + zero_count - 1;
-        for _ in 0..original_length {
-            if arr[current_pos - zero_count] == 0 {
-                arr[current_pos] = 0;
-                arr[current_pos - 1] = 0;
-                current_pos -= 2;
+        while current_pos > 0 {
+            arr[current_pos + zero_count] = arr[current_pos];
+            if arr[current_pos] == 0 {
+                arr[current_pos + zero_count - 1] = 0;
                 zero_count -= 1;
-            } else {
-                arr[current_pos] = arr[current_pos - zero_count];
-                if current_pos > 0 {
-                    current_pos -= 1;
-                }
             }
-        }
-        arr.resize(original_length, 0);
-    }
 
-    let mut v = vec![1, 0, 2, 3, 0, 4, 5, 0];
+            if current_pos == 0 {
+                break;
+            }
+
+            current_pos -= 1;
+        }
+    }
+    let mut v = vec![1, 0, 2, 3, 0, 4, 2, 1];
     duplicate_zeros(&mut v);
     assert_eq!(v, vec![1, 0, 0, 2, 3, 0, 0, 4]);
+
+    let mut v = vec![1,0,1,0];
+    duplicate_zeros(&mut v);
+    assert_eq!(v, vec![1,0,0,1]);
 }
