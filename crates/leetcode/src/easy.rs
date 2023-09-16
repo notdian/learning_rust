@@ -170,7 +170,60 @@ fn duplicateZeros() {
     duplicate_zeros(&mut v);
     assert_eq!(v, vec![1, 0, 0, 2, 3, 0, 0, 4]);
 
-    let mut v = vec![1,0,1,0];
+    let mut v = vec![1, 0, 1, 0];
     duplicate_zeros(&mut v);
-    assert_eq!(v, vec![1,0,0,1]);
+    assert_eq!(v, vec![1, 0, 0, 1]);
+}
+
+#[test]
+fn mergeSortedArray() {
+    pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
+        if n == 0 {
+            return;
+        }
+        if m == 0 {
+            std::mem::swap(nums2, nums1);
+            return;
+        }
+
+        let mut m_current = m as usize;
+        let mut n_current = n as usize;
+        let mut i = m_current + n_current - 1;
+        while n_current > 0 {
+            if m_current > 0 && nums1[m_current - 1] > nums2[n_current - 1] {
+                nums1[i] = nums1[m_current - 1];
+                m_current -= 1;
+            } else {
+                nums1[i] = nums2[n_current - 1];
+                n_current -= 1;
+            }
+            if i == 0 {
+                break;
+            }
+            i -= 1;
+        }
+    }
+    let mut nums1 = vec![1, 2, 3, 0, 0, 0];
+    let m = 3;
+    let mut nums2 = vec![2, 5, 6];
+    let n = 3;
+
+    merge(&mut nums1, m, &mut nums2, n);
+    assert_eq!(nums1, vec![1, 2, 2, 3, 5, 6]);
+
+    let mut nums1 = vec![0];
+    let m = 0;
+    let mut nums2 = vec![1];
+    let n = 1;
+
+    merge(&mut nums1, m, &mut nums2, n);
+    assert_eq!(nums1, vec![1]);
+
+    let mut nums1 = vec![2, 0];
+    let m = 1;
+    let mut nums2 = vec![1];
+    let n = 1;
+
+    merge(&mut nums1, m, &mut nums2, n);
+    assert_eq!(nums1, vec![1, 2]);
 }
