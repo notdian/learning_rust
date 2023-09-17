@@ -227,3 +227,44 @@ fn mergeSortedArray() {
     merge(&mut nums1, m, &mut nums2, n);
     assert_eq!(nums1, vec![1, 2]);
 }
+
+#[test]
+fn removeElement() {
+    pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
+        let mut len = nums.len();
+        let mut i = 0;
+        while i < len {
+            if nums[i] == val {
+                nums[i] = nums[len - 1];
+                len -= 1;
+                continue;
+            }
+            i += 1;
+        }
+        return len as i32;
+    }
+
+    let mut elems = vec![3, 2, 2, 3];
+    let removed = remove_element(&mut elems, 3) as usize;
+    assert_eq!(&elems[..removed], vec![2, 2])
+}
+
+#[test]
+fn twoSum() {
+    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        let mut map = std::collections::HashMap::<&i32, usize>::new();
+
+        for (i, val) in nums.iter().enumerate() {
+            if let Some(pos) = map.get(&(target - val)) {
+                return vec![i as i32, *pos as i32];
+            }
+
+            map.insert(val, i);
+        }
+
+        panic!();
+    }
+    let mut result = two_sum(vec![2, 7, 11, 15], 9);
+    result.sort();
+    assert_eq!(result, vec![0, 1]);
+}
