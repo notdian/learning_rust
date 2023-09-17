@@ -21,47 +21,45 @@ fn addTwoNumbers() {
         l2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
         let mut carry = 0;
-        let mut head: Option<Box<ListNode>> = Some(Box::new(ListNode::new(0)));
-        let output_pos = &mut &mut head.as_mut().unwrap().next;
-        let mut current_pos = &l1;
-        let mut current_pos2 = &l2;
+
+        let mut head: Box<ListNode> = Box::new(ListNode::new(0));
+        let mut output_pos = &mut head;
+
+        let mut current_pos = l1.as_ref();
+        let mut current_pos2 = l2.as_ref();
+
+
         while let Some(v1) = current_pos {
+            current_pos = v1.next.as_ref();
+
+
             let mut sum = v1.val + carry;
 
             if let Some(v) = current_pos2 {
                 sum += v.val;
+                current_pos2 = v.next.as_ref();
             }
-            let mut value = sum;
+
             if sum > 9 {
-                *(&mut carry) = 1;
-                value = sum - 10;
+                carry = 1;
+                sum = sum - 10;
             } else {
                 carry = 0
             }
-            let node = Box::new(ListNode::new(value));
 
-            **output_pos = Some(node);
+            output_pos.next = Some(Box::new(ListNode::new(sum)));
 
-            *output_pos = &mut output_pos.as_mut().unwrap().next;
-
-            current_pos = &current_pos.as_ref().unwrap().next;
-
-            if current_pos2.is_some() {
-                current_pos2 = &current_pos2.as_ref().unwrap().next;
-            } else {
-                current_pos2 = &None;
-            }
+            output_pos = output_pos.next.as_mut().unwrap();
 
             if current_pos.is_none() {
-                current_pos = current_pos2;
-                current_pos2 = &None;
+                current_pos = current_pos2.take();
             }
         }
         if carry > 0 {
-            **output_pos = Some(Box::new(ListNode::new(1)));
+            output_pos.next = Some(Box::new(ListNode::new(1)));
         }
-        drop(output_pos);
-        return head.unwrap().next;
+
+        return head.next;
     }
     assert_eq!(
         add_two_numbers(
