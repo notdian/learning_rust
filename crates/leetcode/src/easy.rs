@@ -268,3 +268,35 @@ fn twoSum() {
     result.sort();
     assert_eq!(result, vec![0, 1]);
 }
+
+#[test]
+fn isPalindrome() {
+    pub fn is_palindrome(x: i32) -> bool {
+        if x < 0 {
+            return false;
+        } 
+        let mut digits = vec![];
+        let mut x_copy = x;
+        while x_copy > 0 {
+            digits.push(x_copy % 10);
+            x_copy /= 10;
+        }
+        let len = digits.len();
+
+        for i in 0..len {
+            if i >= len {
+                break;
+            }
+            if digits[i] != digits[len - 1 - i] {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    assert_eq!(is_palindrome(1000021), false);
+    assert_eq!(is_palindrome(-1), false);
+    assert_eq!(is_palindrome(11), true);
+    assert_eq!(is_palindrome(1), true);
+    assert_eq!(is_palindrome(121), true);
+}
