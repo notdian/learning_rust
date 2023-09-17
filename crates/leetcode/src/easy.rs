@@ -275,13 +275,17 @@ fn isPalindrome() {
         if x < 0 {
             return false;
         } 
-        let mut digits = vec![];
+
+        let mut digits = [0; 10];
+        
         let mut x_copy = x;
+        let mut len = 0;
+        
         while x_copy > 0 {
-            digits.push(x_copy % 10);
+            digits[len] = x_copy % 10;
             x_copy /= 10;
+            len  += 1;
         }
-        let len = digits.len();
 
         for i in 0..len {
             if i >= len {
