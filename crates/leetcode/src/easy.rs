@@ -274,29 +274,17 @@ fn isPalindrome() {
     pub fn is_palindrome(x: i32) -> bool {
         if x < 0 {
             return false;
-        } 
-
-        let mut digits = [0; 10];
-        
-        let mut x_copy = x;
-        let mut len = 0;
-        
-        while x_copy > 0 {
-            digits[len] = x_copy % 10;
-            x_copy /= 10;
-            len  += 1;
         }
 
-        for i in 0..len {
-            if i >= len {
-                break;
-            }
-            if digits[i] != digits[len - 1 - i] {
-                return false;
-            }
+        let mut reversed = 0;
+        let mut temp = x;
+
+        while temp > 0 {
+            reversed = reversed * 10 + temp % 10;
+            temp /= 10;
         }
 
-        return true;
+        return reversed == x;
     }
     assert_eq!(is_palindrome(1000021), false);
     assert_eq!(is_palindrome(-1), false);
