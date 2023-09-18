@@ -270,6 +270,29 @@ fn twoSum() {
 }
 
 #[test]
+fn removeDuplicatesFromSortedArray() {
+    pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
+        let mut current_pos = 0;
+
+        let mut i = 1;
+        while i < nums.len() {
+            if nums[i] != nums[current_pos] {
+                current_pos += 1;
+                nums.swap(i, current_pos);
+            }
+
+            i += 1;
+        }
+
+        return (current_pos + 1) as i32;
+    }
+
+    let mut arr = vec![0, 0, 1, 1, 1, 2, 2, 3, 3, 4];
+    let unique_elems = remove_duplicates(&mut arr) as usize;
+    assert_eq!(arr[..unique_elems], [0, 1, 2, 3, 4]);
+}
+
+#[test]
 fn isPalindrome() {
     pub fn is_palindrome(x: i32) -> bool {
         if x < 0 {
