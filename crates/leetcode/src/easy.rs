@@ -318,7 +318,7 @@ fn isPalindrome() {
 #[test]
 fn checkIfNAndItsDoubleExist() {
     pub fn check_if_exist(arr: Vec<i32>) -> bool {
-        let mut set = std::collections::HashSet::new();
+        let mut set = std::collections::HashSet::with_capacity(arr.len());
 
         let mut zeros = 0;
         arr.iter().for_each(|v| {
@@ -333,15 +333,14 @@ fn checkIfNAndItsDoubleExist() {
             return true;
         }
 
-        return arr
-            .iter()
-            .find(|p| set.contains(&(*p * 2)))
-            .is_some();
+        return arr.iter().find(|p| set.contains(&(*p * 2))).is_some();
     }
+    let now = std::time::Instant::now();
 
     assert_eq!(check_if_exist(vec![10, 2, 5, 3]), true);
     assert_eq!(check_if_exist(vec![3, 1, 7, 11]), false);
     assert_eq!(check_if_exist(vec![-2, 0, 10, -19, 4, 6, -8]), false);
-    assert_eq!(check_if_exist(vec![0,0]), true);
-    assert_eq!(check_if_exist(vec![0,0,0,0,0,0]), true);
+    assert_eq!(check_if_exist(vec![0, 0]), true);
+    assert_eq!(check_if_exist(vec![0, 0, 0, 0, 0, 0]), true);
+    println!("Time elapsed: {:?}", now.elapsed());
 }
