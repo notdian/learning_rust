@@ -352,26 +352,26 @@ fn validMountainArray() {
             return false;
         }
         let mut pos = arr[0];
-        let mut dir = true;
-        let mut sum1 = 0;
-        let mut sum2 = 0;
+        let mut dir = 0;
         for &el in arr.iter().skip(1) {
             if el == pos {
                 return false;
             }
             if el > pos {
-                sum1 += 1;
-                if dir == false {
+                if dir == -1 {
                     return false;
                 }
+                dir = 1;
             } else {
-                sum2 += 1;
-                dir = false;
+                if dir == 0 {
+                    return false;
+                }
+                dir = -1
             }
             pos = el;
         }
 
-        return dir == false && sum1 > 0 && sum2 > 0;
+        return dir == -1;
     }
     assert_eq!(valid_mountain_array(vec![2, 1]), false);
     assert_eq!(valid_mountain_array(vec![1, 3, 2]), true);
