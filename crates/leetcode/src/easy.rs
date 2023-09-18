@@ -344,3 +344,41 @@ fn checkIfNAndItsDoubleExist() {
     assert_eq!(check_if_exist(vec![0, 0, 0, 0, 0, 0]), true);
     println!("Time elapsed: {:?}", now.elapsed());
 }
+
+#[test]
+fn validMountainArray() {
+    pub fn valid_mountain_array(arr: Vec<i32>) -> bool {
+        if arr.len() < 3 {
+            return false;
+        }
+        let mut pos = arr[0];
+        let mut dir = true;
+        let mut sum1 = 0;
+        let mut sum2 = 0;
+        for &el in arr.iter().skip(1) {
+            if el == pos {
+                return false;
+            }
+            if el > pos {
+                sum1 += 1;
+                if dir == false {
+                    return false;
+                }
+            } else {
+                sum2 += 1;
+                dir = false;
+            }
+            pos = el;
+        }
+
+        return dir == false && sum1 > 0 && sum2 > 0;
+    }
+    assert_eq!(valid_mountain_array(vec![2, 1]), false);
+    assert_eq!(valid_mountain_array(vec![1, 3, 2]), true);
+    assert_eq!(valid_mountain_array(vec![3, 5, 5]), false);
+    assert_eq!(valid_mountain_array(vec![0, 3, 2, 1]), true);
+    assert_eq!(
+        valid_mountain_array(vec![9, 8, 7, 6, 5, 4, 3, 2, 1, 0]),
+        false
+    );
+}
