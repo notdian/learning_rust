@@ -315,3 +315,33 @@ fn isPalindrome() {
     assert_eq!(is_palindrome(1), true);
     assert_eq!(is_palindrome(121), true);
 }
+#[test]
+fn checkIfNAndItsDoubleExist() {
+    pub fn check_if_exist(arr: Vec<i32>) -> bool {
+        let mut set = std::collections::HashSet::new();
+
+        let mut zeros = 0;
+        arr.iter().for_each(|v| {
+            if *v == 0 {
+                zeros += 1;
+                return;
+            }
+            set.insert(v);
+        });
+
+        if zeros > 1 {
+            return true;
+        }
+
+        return arr
+            .iter()
+            .find(|p| set.contains(&(*p * 2)))
+            .is_some();
+    }
+
+    assert_eq!(check_if_exist(vec![10, 2, 5, 3]), true);
+    assert_eq!(check_if_exist(vec![3, 1, 7, 11]), false);
+    assert_eq!(check_if_exist(vec![-2, 0, 10, -19, 4, 6, -8]), false);
+    assert_eq!(check_if_exist(vec![0,0]), true);
+    assert_eq!(check_if_exist(vec![0,0,0,0,0,0]), true);
+}
