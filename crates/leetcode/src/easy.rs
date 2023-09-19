@@ -1,7 +1,5 @@
 #![allow(non_snake_case)]
 
-use std::vec;
-
 #[test]
 fn dian() {
     fn running_sum(nums: Vec<i32>) -> Vec<i32> {
