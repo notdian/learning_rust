@@ -422,15 +422,15 @@ fn MoveZeroes() {
 #[test]
 fn sortArrayByParity() {
     pub fn sort_array_by_parity(nums: Vec<i32>) -> Vec<i32> {
-        let mut out = nums.clone();
-        let mut lastEven = 0;
+        let mut out = std::collections::VecDeque::new();
         for i in 0..nums.len() {
-            if out[i] % 2 == 0 {
-                out.swap(i, lastEven);
-                lastEven += 1;
+            if nums[i] % 2 == 0 {
+                out.push_front(nums[i]);
+            }else{
+                out.push_back(nums[i]);
             }
         }
-        return out;
+        return out.into();
     }
     assert_eq!(sort_array_by_parity(vec![3, 1, 2, 4]), vec![2, 4, 3, 1]);
 }
