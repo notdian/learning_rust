@@ -1,5 +1,7 @@
 #![allow(non_snake_case)]
 
+use std::vec;
+
 #[test]
 fn dian() {
     fn running_sum(nums: Vec<i32>) -> Vec<i32> {
@@ -381,4 +383,23 @@ fn validMountainArray() {
         valid_mountain_array(vec![9, 8, 7, 6, 5, 4, 3, 2, 1, 0]),
         false
     );
+}
+
+#[test]
+fn replaceElementsWithGreatestElementOnRightSide() {
+    pub fn replace_elements(arr: Vec<i32>) -> Vec<i32> {
+        let mut output = arr.clone();
+        for i in 0..(arr.len() - 1) {
+            let &val = output.iter().skip(i + 1).max().unwrap();
+
+            output[i] = val;
+        }
+        output[arr.len() - 1] = -1;
+        return output;
+    }
+
+    assert_eq!(
+        replace_elements(vec![17, 18, 5, 4, 6, 1]),
+        vec![18, 6, 6, 6, 1, -1]
+    )
 }
