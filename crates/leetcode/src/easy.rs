@@ -437,7 +437,7 @@ fn sortArrayByParity() {
 
 #[test]
 fn heightChecker() {
-    // suboptimal
+    // TODO: suboptimal
     pub fn height_checker(heights: Vec<i32>) -> i32 {
         let mut sheights = heights.clone();
         sheights.sort();
