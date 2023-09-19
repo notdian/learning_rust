@@ -404,19 +404,14 @@ fn replaceElementsWithGreatestElementOnRightSide() {
 }
 
 #[test]
-fn moveZeroes() {
+fn MoveZeroes() {
     pub fn move_zeroes(nums: &mut Vec<i32>) {
         let mut lastNonZeroFoundAt = 0;
-
         for i in 0..nums.len() {
             if nums[i] != 0 {
-                nums[lastNonZeroFoundAt] = nums[i];
+                nums.swap(i, lastNonZeroFoundAt);
                 lastNonZeroFoundAt += 1;
             }
-        }
-
-        for i in lastNonZeroFoundAt..nums.len() {
-            nums[i] = 0;
         }
     }
     let mut sample = vec![0, 1, 0, 3, 12];
