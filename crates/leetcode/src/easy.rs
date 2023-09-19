@@ -464,3 +464,24 @@ pub fn thirdMax() {
     assert_eq!(third_max(vec![2, 2, 3, 1]), 1);
     assert_eq!(third_max(vec![2,1]), 2);
 }
+
+#[test]
+pub fn findDisappearedNumbers(){
+    pub fn find_disappeared_numbers(nums: Vec<i32>) -> Vec<i32> {
+        let mut nums = nums;
+        for i in 0..nums.len() {
+            let n = (nums[i].abs() - 1) as usize;
+            nums[n] = -nums[n].abs();
+        }
+        
+        nums.iter()
+            .enumerate()
+            .filter_map(|(i, num)| match num.cmp(&0) {
+                std::cmp::Ordering::Greater => Some(i as i32 + 1),
+                _ => None,
+            })
+            .collect()
+    }
+
+    assert_eq!(find_disappeared_numbers(vec![4,3,2,7,8,2,3,1]),[5,6]);
+}
