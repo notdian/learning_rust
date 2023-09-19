@@ -426,11 +426,41 @@ fn sortArrayByParity() {
         for i in 0..nums.len() {
             if nums[i] % 2 == 0 {
                 out.push_front(nums[i]);
-            }else{
+            } else {
                 out.push_back(nums[i]);
             }
         }
         return out.into();
     }
     assert_eq!(sort_array_by_parity(vec![3, 1, 2, 4]), vec![2, 4, 3, 1]);
+}
+
+#[test]
+fn heightChecker() {
+    // suboptimal
+    pub fn height_checker(heights: Vec<i32>) -> i32 {
+        let mut sheights = heights.clone();
+        sheights.sort();
+        let mut mismatch = 0;
+        for i in 0..heights.len() {
+            if heights[i] == sheights[i] {
+                continue;
+            }
+            mismatch += 1;
+        }
+        mismatch
+    }
+    assert_eq!(height_checker(vec![1,2,1,2,2,3,4]),2);
+}
+
+#[test]
+pub fn thirdMax() {
+    pub fn third_max(nums: Vec<i32>) -> i32 {
+        let first = nums.iter().max().unwrap();
+        let second = nums.iter().filter(|&p| p < first).max().unwrap_or(first);
+        return *nums.iter().filter(|&p| p < second).max().unwrap_or(first);
+    }
+
+    assert_eq!(third_max(vec![2, 2, 3, 1]), 1);
+    assert_eq!(third_max(vec![2,1]), 2);
 }
