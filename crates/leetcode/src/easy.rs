@@ -388,14 +388,13 @@ fn validMountainArray() {
 #[test]
 fn replaceElementsWithGreatestElementOnRightSide() {
     pub fn replace_elements(arr: Vec<i32>) -> Vec<i32> {
-        let mut output = arr.clone();
-        for i in 0..(arr.len() - 1) {
-            let &val = output.iter().skip(i + 1).max().unwrap();
-
-            output[i] = val;
+        let mut output = std::collections::VecDeque::new();
+        output.push_back(-1);
+        for i in (1..arr.len()).rev() {
+            let front = *output.front().unwrap();
+            output.push_front(front.max(arr[i]));
         }
-        output[arr.len() - 1] = -1;
-        return output;
+        return output.into();
     }
 
     assert_eq!(
