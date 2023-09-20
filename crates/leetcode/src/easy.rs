@@ -448,7 +448,7 @@ fn heightChecker() {
         }
         mismatch
     }
-    assert_eq!(height_checker(vec![1,2,1,2,2,3,4]),2);
+    assert_eq!(height_checker(vec![1, 2, 1, 2, 2, 3, 4]), 2);
 }
 
 #[test]
@@ -460,18 +460,18 @@ pub fn thirdMax() {
     }
 
     assert_eq!(third_max(vec![2, 2, 3, 1]), 1);
-    assert_eq!(third_max(vec![2,1]), 2);
+    assert_eq!(third_max(vec![2, 1]), 2);
 }
 
 #[test]
-pub fn findDisappearedNumbers(){
+pub fn findDisappearedNumbers() {
     pub fn find_disappeared_numbers(nums: Vec<i32>) -> Vec<i32> {
         let mut nums = nums;
         for i in 0..nums.len() {
             let n = (nums[i].abs() - 1) as usize;
             nums[n] = -nums[n].abs();
         }
-        
+
         nums.iter()
             .enumerate()
             .filter_map(|(i, num)| match num.cmp(&0) {
@@ -481,22 +481,64 @@ pub fn findDisappearedNumbers(){
             .collect()
     }
 
-    assert_eq!(find_disappeared_numbers(vec![4,3,2,7,8,2,3,1]),[5,6]);
+    assert_eq!(
+        find_disappeared_numbers(vec![4, 3, 2, 7, 8, 2, 3, 1]),
+        [5, 6]
+    );
 }
 
 #[test]
-pub fn containsDuplicate(){
+pub fn containsDuplicate() {
     pub fn contains_duplicate(nums: Vec<i32>) -> bool {
         let mut set = std::collections::HashSet::new();
         for n in nums.iter() {
             if set.contains(n) {
-                return true
+                return true;
             }
             set.insert(n);
         }
 
         false
     }
-    assert_eq!(contains_duplicate(vec![1,2,3,1]),true);
-    assert_eq!(contains_duplicate(vec![1,2,3,4]),false);
+    assert_eq!(contains_duplicate(vec![1, 2, 3, 1]), true);
+    assert_eq!(contains_duplicate(vec![1, 2, 3, 4]), false);
+}
+#[test]
+pub fn validAnagram() {
+    pub fn is_anagram(s: String, t: String) -> bool {
+        if s.len() != t.len() {
+            return false;
+        }
+
+        let mut map = std::collections::HashMap::<char, u32>::new();
+        for char in s.chars() {
+            let count = map.get_mut(&char);
+            if count.is_none() {
+                map.insert(char, 1);
+            } else {
+                *count.unwrap() += 1;
+            }
+        }
+        for char in t.chars() {
+            let count = map.get_mut(&char);
+            if count.is_none() {
+                break;
+            }
+            let count = count.unwrap();
+
+            if count == &1 {
+                map.remove(&char);
+            } else {
+                *count -= 1;
+            }
+        }
+
+        map.is_empty()
+    }
+
+    assert_eq!(
+        is_anagram("anagram".to_string(), "nagaram".to_string()),
+        true
+    );
+    assert_eq!(is_anagram("rat".to_string(), "car".to_string()), false);
 }
