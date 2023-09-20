@@ -542,3 +542,16 @@ pub fn validAnagram() {
     );
     assert_eq!(is_anagram("rat".to_string(), "car".to_string()), false);
 }
+
+#[test]
+pub fn validPalindrome(){
+    pub fn is_palindrome(s: String) -> bool {
+        let s: String = s.chars().filter(|c| c.is_ascii_alphanumeric()).map(|c| c.to_ascii_lowercase()).collect();
+        let reversed: String = s.chars().rev().collect();
+        s.eq(&reversed)
+    }
+
+    assert_eq!(is_palindrome("A man, a plan, a canal: Panama".to_string()), true);
+    assert_eq!(is_palindrome("race a car".to_string()), false);
+    assert_eq!(is_palindrome(" ".to_string()), true);
+}
