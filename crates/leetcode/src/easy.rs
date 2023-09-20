@@ -483,3 +483,20 @@ pub fn findDisappearedNumbers(){
 
     assert_eq!(find_disappeared_numbers(vec![4,3,2,7,8,2,3,1]),[5,6]);
 }
+
+#[test]
+pub fn containsDuplicate(){
+    pub fn contains_duplicate(nums: Vec<i32>) -> bool {
+        let mut set = std::collections::HashSet::new();
+        for n in nums.iter() {
+            if set.contains(n) {
+                return true
+            }
+            set.insert(n);
+        }
+
+        false
+    }
+    assert_eq!(contains_duplicate(vec![1,2,3,1]),true);
+    assert_eq!(contains_duplicate(vec![1,2,3,4]),false);
+}
