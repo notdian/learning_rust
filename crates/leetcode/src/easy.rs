@@ -430,7 +430,11 @@ fn sortArrayByParity() {
         }
         return out.into();
     }
-    assert_eq!(sort_array_by_parity(vec![3, 1, 2, 4]), vec![2, 4, 3, 1]);
+    let mut sorted_array = sort_array_by_parity(vec![3, 1, 2, 4]);
+    let (even, odd) = sorted_array.split_at_mut(2);
+    even.sort();
+    odd.sort();
+    assert_eq!(sorted_array, [2, 4, 1, 3]);
 }
 
 #[test]
@@ -544,14 +548,21 @@ pub fn validAnagram() {
 }
 
 #[test]
-pub fn validPalindrome(){
+pub fn validPalindrome() {
     pub fn is_palindrome(s: String) -> bool {
-        let s: String = s.chars().filter(|c| c.is_ascii_alphanumeric()).map(|c| c.to_ascii_lowercase()).collect();
+        let s: String = s
+            .chars()
+            .filter(|c| c.is_ascii_alphanumeric())
+            .map(|c| c.to_ascii_lowercase())
+            .collect();
         let reversed: String = s.chars().rev().collect();
         s.eq(&reversed)
     }
 
-    assert_eq!(is_palindrome("A man, a plan, a canal: Panama".to_string()), true);
+    assert_eq!(
+        is_palindrome("A man, a plan, a canal: Panama".to_string()),
+        true
+    );
     assert_eq!(is_palindrome("race a car".to_string()), false);
     assert_eq!(is_palindrome(" ".to_string()), true);
 }
