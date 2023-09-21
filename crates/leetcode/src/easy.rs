@@ -566,3 +566,48 @@ pub fn validPalindrome() {
     assert_eq!(is_palindrome("race a car".to_string()), false);
     assert_eq!(is_palindrome(" ".to_string()), true);
 }
+
+#[test]
+pub fn romanToInt() {
+    pub fn roman_to_int(s: String) -> i32 {
+        let romans = std::collections::HashMap::from([
+            ("M", 1000),
+            ("D", 500),
+            ("C", 100),
+            ("L", 50),
+            ("X", 10),
+            ("V", 5),
+            ("I", 1),
+        ]);
+
+        let mut sum = 0;
+        let mut i = 0;
+
+        while i < s.len() {
+            let (first, second) = (s.get(i..i + 1).unwrap(), s.get(i + 1..i + 2));
+            let mut composed = true;
+            sum += match (first, second) {
+                ("I", Some(y)) if y == "X" || y == "V" => romans.get(y).unwrap() - 1,
+                ("X", Some(y)) if y == "L" || y == "C" => romans.get(y).unwrap() - 10,
+                ("C", Some(y)) if y == "D" || y == "M" => romans.get(y).unwrap() - 100,
+                _ => {
+                    *(&mut composed) = false;
+                    *romans.get(first).unwrap()
+                }
+            };
+
+            if composed {
+                i += 2
+            } else {
+                i += 1;
+            }
+        }
+
+        sum
+    }
+
+    assert_eq!(roman_to_int("IX".to_string()), 9);
+    assert_eq!(roman_to_int("III".to_string()), 3);
+    assert_eq!(roman_to_int("LVIII".to_string()), 58);
+    assert_eq!(roman_to_int("MCMXCIV".to_string()), 1994);
+}
