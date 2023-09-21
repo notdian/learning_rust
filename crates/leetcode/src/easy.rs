@@ -611,3 +611,40 @@ pub fn romanToInt() {
     assert_eq!(roman_to_int("LVIII".to_string()), 58);
     assert_eq!(roman_to_int("MCMXCIV".to_string()), 1994);
 }
+
+#[test]
+pub fn sqrt() {
+    pub fn my_sqrt(x: i32) -> i32 {
+        let x: i64 = x.into();
+        if x == 1 {
+            return 1;
+        }
+
+        let (mut left, mut right) = (0, x as i64);
+        let mut current_mid: i64 = x / 2;
+        loop {
+            if right - left <= 1 {
+                return left.try_into().unwrap();
+            }
+
+            *(&mut current_mid) = (left + right) / 2;
+            let squared = current_mid * current_mid;
+
+            if squared == x {
+                return current_mid.try_into().unwrap();
+            }
+            if squared >= x {
+                right = current_mid;
+            } else {
+                left = current_mid;
+            }
+        }
+    }
+
+    assert_eq!(my_sqrt(2147395599), 46339);
+    assert_eq!(my_sqrt(1), 1);
+    assert_eq!(my_sqrt(4), 2);
+    assert_eq!(my_sqrt(9), 3);
+    assert_eq!(my_sqrt(12), 3);
+    assert_eq!(my_sqrt(27), 5);
+}
