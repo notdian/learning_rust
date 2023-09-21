@@ -615,25 +615,29 @@ pub fn romanToInt() {
 #[test]
 pub fn sqrt() {
     pub fn my_sqrt(x: i32) -> i32 {
-        let x: i64 = x.into();
         if x == 1 {
             return 1;
         }
 
-        let (mut left, mut right) = (0, x as i64);
-        let mut current_mid: i64 = x / 2;
+        let (mut left, mut right) = (0, x.min(46340));
+
+
+        if x >= right * right {
+            return right;
+        }
+        
         loop {
             if right - left <= 1 {
-                return left.try_into().unwrap();
+                return left;
             }
 
-            *(&mut current_mid) = (left + right) / 2;
+            let current_mid = (left + right) / 2;
             let squared = current_mid * current_mid;
 
             if squared == x {
-                return current_mid.try_into().unwrap();
+                return current_mid;
             }
-            if squared >= x {
+            if squared > x {
                 right = current_mid;
             } else {
                 left = current_mid;
