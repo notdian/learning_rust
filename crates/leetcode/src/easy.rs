@@ -655,6 +655,11 @@ pub fn sqrt() {
 #[test]
 fn validParentheses() {
     pub fn is_valid(s: String) -> bool {
+        // odd lengths are always invalid
+        if s.len() & 1 == 1 {
+            return false;
+        }
+
         let mut open = vec![];
 
         for c in s.chars() {
