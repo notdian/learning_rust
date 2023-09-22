@@ -656,22 +656,16 @@ pub fn sqrt() {
 fn validParentheses() {
     pub fn is_valid(s: String) -> bool {
         let mut open = vec![];
-        let opening = ['[', '{', '('];
-        let closing = [']', '}', ')'];
 
-        for s in s.chars() {
-            if s == '[' || s == '(' || s == '{' {
-                open.push(s);
-                continue;
-            }
-            for i in 0..closing.len() {
-                if &s == &closing[i] {
-                    if Some(&opening[i]) == open.last() {
-                        open.pop();
-                    } else {
-                        return false;
-                    }
-                }
+        for c in s.chars() {
+            match c {
+                '(' | '[' | '{' => open.push(c),
+                _ => match open.pop() {
+                    Some('(') if c == ')' => (),
+                    Some('[') if c == ']' => (),
+                    Some('{') if c == '}' => (),
+                    _ => return false,
+                },
             }
         }
 
