@@ -1,5 +1,7 @@
 #![allow(non_snake_case)]
 
+use std::vec;
+
 #[test]
 fn dian() {
     fn running_sum(nums: Vec<i32>) -> Vec<i32> {
@@ -680,4 +682,48 @@ fn validParentheses() {
     assert_eq!(is_valid("()[]".to_string()), true);
     assert_eq!(is_valid("[()[]([{}])]".to_string()), true);
     assert_eq!(is_valid("(])(".to_string()), false);
+}
+
+#[test]
+pub fn longestCommonPrefix() {
+    // We can also use divide and conquer
+    pub fn longest_common_prefix(strs: Vec<String>) -> String {
+        if strs.len() == 1 {
+            return strs.get(0..1).unwrap()[0].to_owned();
+        }
+
+        let mut i = 0;
+        let first = &strs[0];
+
+        'common: while i < first.len() {
+            for str in strs.iter().skip(1) {
+                if str.get(i..i + 1) != first.get(i..i + 1) {
+                    break 'common;
+                }
+            }
+            i += 1
+        }
+        return first.get(0..i).unwrap_or_default().to_owned();
+    }
+
+    assert_eq!(
+        longest_common_prefix(vec![
+            "flower".to_string(),
+            "flower".to_string(),
+            "flower".to_string()
+        ]),
+        "flower".to_string()
+    );
+    assert_eq!(
+        longest_common_prefix(vec![
+            "flower".to_string(),
+            "flower".to_string(),
+            "fl".to_string()
+        ]),
+        "fl".to_string()
+    );
+    assert_eq!(
+        longest_common_prefix(vec!["f".to_string(),]),
+        "f".to_string()
+    )
 }
