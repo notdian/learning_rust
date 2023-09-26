@@ -1,5 +1,6 @@
 #![allow(non_snake_case)]
 
+use std::vec;
 
 #[test]
 fn addTwoNumbers() {
@@ -28,10 +29,8 @@ fn addTwoNumbers() {
         let mut current_pos = l1.as_ref();
         let mut current_pos2 = l2.as_ref();
 
-
         while let Some(v1) = current_pos {
             current_pos = v1.next.as_ref();
-
 
             let mut sum = v1.val + carry;
 
@@ -69,10 +68,12 @@ fn addTwoNumbers() {
                 next: Some(Box::new(ListNode { val: 2, next: None }))
             }))
         ),
-        Some(Box::new(ListNode { val: 2, next: Some(Box::new(ListNode { val: 2, next: None })) }))
+        Some(Box::new(ListNode {
+            val: 2,
+            next: Some(Box::new(ListNode { val: 2, next: None }))
+        }))
     );
 }
-
 
 #[test]
 fn kthGrammer() {
@@ -102,4 +103,35 @@ fn kthGrammer() {
         return row[(k - 1) as usize];
     }
     assert_eq!(kth_grammar(30, 434991989), 0);
+}
+
+#[test]
+pub fn groupAnagrams() {
+    const N_LETTERS: usize = (b'z' - b'a' + 1) as _;
+
+    pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {
+        strs.into_iter().fold(std::collections::HashMap::<[u8; N_LETTERS], Vec<String>>::new(), |mut map, s| {
+            let freqs = s.bytes().map(|b| (b - b'a') as usize).fold([0; N_LETTERS], |mut freqs, bin| {
+                freqs[bin] += 1;
+                freqs
+            });
+            map.entry(freqs).or_default().push(s);
+            map
+        }).into_values().collect()
+    }
+    assert_eq!(
+        group_anagrams(vec![
+            "eat".to_string(),
+            "ate".to_string(),
+            "tea".to_string(),
+            "tan".to_string(),
+            "nat".to_string(),
+            "bat".to_string()
+        ]),
+        vec![
+            vec!["tan".to_string(), "nat".to_string()],
+            vec!["eat".to_string(), "ate".to_string(), "tea".to_string()],
+            vec!["bat".to_string()],
+        ]
+    )
 }
