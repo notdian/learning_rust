@@ -727,3 +727,103 @@ pub fn longestCommonPrefix() {
         "f".to_string()
     )
 }
+
+#[test]
+fn mergeTwoSortedLists() {
+    // Non optimal. We should use splicing using mem::swap
+    #[derive(PartialEq, Eq, Clone, Debug)]
+    pub struct ListNode {
+        pub val: i32,
+        pub next: Option<Box<ListNode>>,
+    }
+
+    impl ListNode {
+        #[inline]
+        fn new(val: i32) -> Self {
+            ListNode { next: None, val }
+        }
+    }
+    pub fn merge_two_lists(
+        list1: Option<Box<ListNode>>,
+        list2: Option<Box<ListNode>>,
+    ) -> Option<Box<ListNode>> {
+        let mut r = Some(Box::new(ListNode::new(0)));
+        let mut result: &mut Option<Box<ListNode>> = &mut r.as_mut().unwrap().next;
+        let mut head1 = list1.clone();
+        let mut head2 = list2.clone();
+
+        loop {
+            match (&mut head1, &mut head2) {
+                (Some(node1), Some(node2)) => {
+                    if node1.val < node2.val {
+                        *result = Some(Box::new(ListNode::new(node1.val)));
+                        head1 = head1.unwrap().next;
+                    } else {
+                        *result = Some(Box::new(ListNode::new(node2.val)));
+                        head2 = head2.unwrap().next; 
+                    }
+                    let next = &mut result.as_mut().unwrap().next;
+                    result = next;
+                }
+                (Some(_), None) => {
+                    *result = head1;
+                    break;
+                }
+                (None, Some(_)) => {
+                    *result = head2;
+                    break;
+                }
+                (None, None) => break,
+            }
+        }
+        return r.unwrap().next;
+
+    }
+
+    let mut array1 = Box::new(ListNode::new(1));
+    array1.next = Some(Box::new(ListNode::new(2)));
+    array1.next.as_deref_mut().unwrap().next = Some(Box::new(ListNode::new(4)));
+
+    let mut array2 = Box::new(ListNode::new(1));
+    array2.next = Some(Box::new(ListNode::new(3)));
+    array2.next.as_deref_mut().unwrap().next = Some(Box::new(ListNode::new(4)));
+
+    let mut array3 = Box::new(ListNode::new(1));
+    array3.next = Some(Box::new(ListNode::new(1)));
+    array3.next.as_deref_mut().unwrap().next = Some(Box::new(ListNode::new(2)));
+    array3
+        .next
+        .as_deref_mut()
+        .unwrap()
+        .next
+        .as_deref_mut()
+        .unwrap()
+        .next = Some(Box::new(ListNode::new(3)));
+    array3
+        .next
+        .as_deref_mut()
+        .unwrap()
+        .next
+        .as_deref_mut()
+        .unwrap()
+        .next
+        .as_deref_mut()
+        .unwrap()
+        .next = Some(Box::new(ListNode::new(4)));
+    array3
+        .next
+        .as_deref_mut()
+        .unwrap()
+        .next
+        .as_deref_mut()
+        .unwrap()
+        .next
+        .as_deref_mut()
+        .unwrap()
+        .next
+        .as_deref_mut()
+        .unwrap()
+        .next = Some(Box::new(ListNode::new(4)));
+
+    assert_eq!(merge_two_lists(Some(array1), Some(array2)), Some(array3));
+}
