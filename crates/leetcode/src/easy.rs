@@ -747,10 +747,10 @@ fn mergeTwoSortedLists() {
         list1: Option<Box<ListNode>>,
         list2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
-        let mut r = Some(Box::new(ListNode::new(0)));
-        let mut result: &mut Option<Box<ListNode>> = &mut r.as_mut().unwrap().next;
-        let mut head1 = list1.clone();
-        let mut head2 = list2.clone();
+        let mut r: Option<Box<ListNode>> = None;
+        let mut result = &mut r;
+        let mut head1 = list1;
+        let mut head2 = list2;
 
         loop {
             match (&mut head1, &mut head2) {
@@ -760,7 +760,7 @@ fn mergeTwoSortedLists() {
                         head1 = head1.unwrap().next;
                     } else {
                         *result = Some(Box::new(ListNode::new(node2.val)));
-                        head2 = head2.unwrap().next; 
+                        head2 = head2.unwrap().next;
                     }
                     let next = &mut result.as_mut().unwrap().next;
                     result = next;
@@ -776,8 +776,7 @@ fn mergeTwoSortedLists() {
                 (None, None) => break,
             }
         }
-        return r.unwrap().next;
-
+        r
     }
 
     let mut array1 = Box::new(ListNode::new(1));
