@@ -826,3 +826,15 @@ fn mergeTwoSortedLists() {
 
     assert_eq!(merge_two_lists(Some(array1), Some(array2)), Some(array3));
 }
+
+#[test]
+pub fn strStr() {
+    pub fn str_str(haystack: String, needle: String) -> i32 {
+        if let Some(p) = haystack.find(&needle) {
+            return p as i32;
+        }
+        -1
+    }
+    assert_eq!(str_str("sadbutsad".to_string(), "sad".to_string()), 0);
+    assert_eq!(str_str("leetcode".to_string(), "leeto".to_string()), -1);
+}
