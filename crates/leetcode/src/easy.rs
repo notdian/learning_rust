@@ -838,3 +838,27 @@ pub fn strStr() {
     assert_eq!(str_str("sadbutsad".to_string(), "sad".to_string()), 0);
     assert_eq!(str_str("leetcode".to_string(), "leeto".to_string()), -1);
 }
+#[test]
+pub fn search_insert() {
+    pub fn search_insert(nums: Vec<i32>, target: i32) -> i32 {
+        let mut left = 0;
+        let mut right = nums.len();
+        while left < right {
+            let mid = (left + right) / 2;
+            if nums[mid] == target {
+                return mid as i32;
+            }
+            if nums[mid] > target {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        left as i32
+    }
+    assert_eq!(search_insert(vec![1, 3, 5, 6], 5), 2);
+    assert_eq!(search_insert(vec![1, 3, 5, 6], 2), 1);
+    assert_eq!(search_insert(vec![1, 3, 5, 6], 7), 4);
+    assert_eq!(search_insert(vec![1, 3, 5, 6], 0), 0);
+    assert_eq!(search_insert(vec![1, 3, 5, 6], 7), 4);
+}
