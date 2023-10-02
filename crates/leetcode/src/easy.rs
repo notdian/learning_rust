@@ -842,19 +842,19 @@ pub fn strStr() {
 pub fn search_insert() {
     pub fn search_insert(nums: Vec<i32>, target: i32) -> i32 {
         let mut left = 0;
-        let mut right = nums.len();
-        while left < right {
+        let mut right = nums.len() as i32 - 1;
+        while left <= right {
             let mid = (left + right) / 2;
-            if nums[mid] == target {
-                return mid as i32;
-            }
-            if nums[mid] > target {
-                right = mid;
-            } else {
-                left = mid + 1;
+            match nums[mid as usize].cmp(&target) {
+                std::cmp::Ordering::Equal => {
+                    left = mid;
+                    break
+                },
+                std::cmp::Ordering::Greater => right = mid - 1,
+                std::cmp::Ordering::Less => left = mid + 1,
             }
         }
-        left as i32
+        left
     }
     assert_eq!(search_insert(vec![1, 3, 5, 6], 5), 2);
     assert_eq!(search_insert(vec![1, 3, 5, 6], 2), 1);
