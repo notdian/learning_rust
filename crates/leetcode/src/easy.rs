@@ -1,7 +1,5 @@
 #![allow(non_snake_case)]
 
-use std::collections::VecDeque;
-
 #[test]
 fn dian() {
     fn running_sum(nums: Vec<i32>) -> Vec<i32> {
@@ -888,7 +886,7 @@ fn lengthOfLastWord() {
     );
 }
 #[test]
-fn plus_one() {
+fn plusOne() {
     pub fn plus_one(digits: Vec<i32>) -> Vec<i32> {
         let mut digits: std::collections::VecDeque<i32> = digits.into();
         let mut carry = 1;
@@ -915,4 +913,79 @@ fn plus_one() {
     assert_eq!(plus_one(vec![9]), vec![1, 0]);
     assert_eq!(plus_one(vec![1, 0]), vec![1, 1]);
     assert_eq!(plus_one(vec![9, 9]), vec![1, 0, 0]);
+}
+
+#[test]
+fn add_binary() {
+    pub fn add_binary(mut a: String, mut b: String) -> String {
+        let mut carry = 0;
+        let mut result = String::new();
+
+        loop {
+            match (a.pop(), b.pop()) {
+                (Some(f), Some(s)) => match (f, s) {
+                    ('1', '1') => {
+                        if carry > 0 {
+                            result.push('1')
+                        } else {
+                            result.push('0');
+                            carry = 1;
+                        }
+                    }
+                    ('1', '0') | ('0', '1') => {
+                        if carry > 0 {
+                            result.push('0');
+                            carry = 1;
+                        } else {
+                            result.push('1');
+                        }
+                    }
+                    _ => {
+                        result.push(std::char::from_digit(carry, 10).unwrap());
+                        carry = 0;
+                    }
+                },
+
+                (Some(f), None) | (None, Some(f)) => match f {
+                    '1' => {
+                        if carry > 0 {
+                            result.push('0');
+                            carry = 1;
+                        } else {
+                            result.push('1');
+                        }
+                    }
+                    '0' => {
+                        if carry > 0 {
+                            result.push('1');
+                            carry = 0;
+                        } else {
+                            result.push('0');
+                        }
+                    }
+                    _ => panic!(),
+                },
+                _ => return {
+                    if carry > 0 {
+                        result.push('1');
+                    }                    
+                    result.as_bytes().iter().map(|c| *c as char).rev().collect()
+                }
+            }
+        }
+    }
+    assert_eq!(
+        add_binary("10100".to_string(), "11".to_string()),
+        "10111".to_string()
+    );
+
+    assert_eq!(
+        add_binary("11".to_string(), "1".to_string()),
+        "100".to_string()
+    );
+
+    assert_eq!(
+        add_binary("1010".to_string(), "1011".to_string()),
+        "10101".to_string()
+    );
 }
