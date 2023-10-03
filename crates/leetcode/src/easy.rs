@@ -1,7 +1,5 @@
 #![allow(non_snake_case)]
 
-use std::vec;
-
 #[test]
 fn dian() {
     fn running_sum(nums: Vec<i32>) -> Vec<i32> {
@@ -458,7 +456,7 @@ fn heightChecker() {
 }
 
 #[test]
-pub fn thirdMax() {
+fn thirdMax() {
     pub fn third_max(nums: Vec<i32>) -> i32 {
         let first = nums.iter().max().unwrap();
         let second = nums.iter().filter(|&p| p < first).max().unwrap_or(first);
@@ -470,7 +468,7 @@ pub fn thirdMax() {
 }
 
 #[test]
-pub fn findDisappearedNumbers() {
+fn findDisappearedNumbers() {
     pub fn find_disappeared_numbers(nums: Vec<i32>) -> Vec<i32> {
         let mut nums = nums;
         for i in 0..nums.len() {
@@ -494,7 +492,7 @@ pub fn findDisappearedNumbers() {
 }
 
 #[test]
-pub fn containsDuplicate() {
+fn containsDuplicate() {
     pub fn contains_duplicate(nums: Vec<i32>) -> bool {
         let mut set = std::collections::HashSet::new();
         for n in nums.iter() {
@@ -510,7 +508,7 @@ pub fn containsDuplicate() {
     assert_eq!(contains_duplicate(vec![1, 2, 3, 4]), false);
 }
 #[test]
-pub fn validAnagram() {
+fn validAnagram() {
     pub fn is_anagram(s: String, t: String) -> bool {
         if s.len() != t.len() {
             return false;
@@ -550,7 +548,7 @@ pub fn validAnagram() {
 }
 
 #[test]
-pub fn validPalindrome() {
+fn validPalindrome() {
     pub fn is_palindrome(s: String) -> bool {
         let s: String = s
             .chars()
@@ -570,7 +568,7 @@ pub fn validPalindrome() {
 }
 
 #[test]
-pub fn romanToInt() {
+fn romanToInt() {
     pub fn roman_to_int(s: String) -> i32 {
         let romans = std::collections::HashMap::from([
             ("M", 1000),
@@ -615,7 +613,7 @@ pub fn romanToInt() {
 }
 
 #[test]
-pub fn sqrt() {
+fn sqrt() {
     pub fn my_sqrt(x: i32) -> i32 {
         if x == 1 {
             return 1;
@@ -685,7 +683,7 @@ fn validParentheses() {
 }
 
 #[test]
-pub fn longestCommonPrefix() {
+fn longestCommonPrefix() {
     // We can also use divide and conquer
     pub fn longest_common_prefix(strs: Vec<String>) -> String {
         if strs.len() == 1 {
@@ -828,7 +826,7 @@ fn mergeTwoSortedLists() {
 }
 
 #[test]
-pub fn strStr() {
+fn strStr() {
     pub fn str_str(haystack: String, needle: String) -> i32 {
         if let Some(p) = haystack.find(&needle) {
             return p as i32;
@@ -839,7 +837,7 @@ pub fn strStr() {
     assert_eq!(str_str("leetcode".to_string(), "leeto".to_string()), -1);
 }
 #[test]
-pub fn search_insert() {
+fn search_insert() {
     pub fn search_insert(nums: Vec<i32>, target: i32) -> i32 {
         let mut left = 0;
         let mut right = nums.len() as i32 - 1;
@@ -848,8 +846,8 @@ pub fn search_insert() {
             match nums[mid as usize].cmp(&target) {
                 std::cmp::Ordering::Equal => {
                     left = mid;
-                    break
-                },
+                    break;
+                }
                 std::cmp::Ordering::Greater => right = mid - 1,
                 std::cmp::Ordering::Less => left = mid + 1,
             }
@@ -861,4 +859,29 @@ pub fn search_insert() {
     assert_eq!(search_insert(vec![1, 3, 5, 6], 7), 4);
     assert_eq!(search_insert(vec![1, 3, 5, 6], 0), 0);
     assert_eq!(search_insert(vec![1, 3, 5, 6], 7), 4);
+}
+
+#[test]
+fn lengthOfLastWord() {
+    pub fn length_of_last_word(s: String) -> i32 {
+        let mut len = 0;
+        let separator = ' ' as u8;
+        for b in s.as_bytes().iter().rev() {
+            if b == &separator {
+                if len > 0 {
+                    return len;
+                } else {
+                    continue;
+                }
+            }
+            len += 1;
+        }
+
+        len
+    }
+    assert_eq!(length_of_last_word("Hello World".to_string()), 5);
+    assert_eq!(
+        length_of_last_word("   fly me   to   the moon  ".to_string()),
+        4
+    );
 }
