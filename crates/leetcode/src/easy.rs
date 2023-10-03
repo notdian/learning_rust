@@ -1,5 +1,7 @@
 #![allow(non_snake_case)]
 
+use std::collections::VecDeque;
+
 #[test]
 fn dian() {
     fn running_sum(nums: Vec<i32>) -> Vec<i32> {
@@ -884,4 +886,33 @@ fn lengthOfLastWord() {
         length_of_last_word("   fly me   to   the moon  ".to_string()),
         4
     );
+}
+#[test]
+fn plus_one() {
+    pub fn plus_one(digits: Vec<i32>) -> Vec<i32> {
+        let mut digits: std::collections::VecDeque<i32> = digits.into();
+        let mut carry = 1;
+        let mut digit = (digits.len() as i32) - 1;
+        while carry > 0 && digit >= 0 {
+            {
+                let digit = digit as usize;
+                if digits[digit] + carry > 9 {
+                    digits[digit] = 0
+                } else {
+                    digits[digit] += carry;
+                    carry = 0;
+                }
+            }
+
+            digit -= 1;
+        }
+        if carry > 0 {
+            digits.push_front(carry);
+        }
+        digits.into()
+    }
+
+    assert_eq!(plus_one(vec![9]), vec![1, 0]);
+    assert_eq!(plus_one(vec![1, 0]), vec![1, 1]);
+    assert_eq!(plus_one(vec![9, 9]), vec![1, 0, 0]);
 }
