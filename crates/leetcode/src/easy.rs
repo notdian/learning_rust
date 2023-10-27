@@ -965,11 +965,13 @@ fn add_binary() {
                     }
                     _ => panic!(),
                 },
-                _ => return {
-                    if carry > 0 {
-                        result.push('1');
-                    }                    
-                    result.as_bytes().iter().map(|c| *c as char).rev().collect()
+                _ => {
+                    return {
+                        if carry > 0 {
+                            result.push('1');
+                        }
+                        result.as_bytes().iter().map(|c| *c as char).rev().collect()
+                    }
                 }
             }
         }
@@ -988,4 +990,49 @@ fn add_binary() {
         add_binary("1010".to_string(), "1011".to_string()),
         "10101".to_string()
     );
+}
+
+#[test]
+fn toHex() {
+    // Better impl would be to iter over bytes and convert every 4bits to u
+    const DICT: [char; 16] = [
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
+    ];
+    pub fn to_hex(num: i32) -> String {
+        if num == 0 {
+            return "0".to_string();
+        }
+
+        let mut num = num as i64;
+
+        if num < 0 {
+            *(&mut num) = 16_i64.pow(7) * 16 + (num as i64);
+        }
+
+        let mut out = String::new();
+        let mut pow: u32 = 7;
+        loop {
+            if num > 0 {
+                let numerator = num / 16_i64.pow(pow);
+                if numerator > 0 {
+                    *(&mut num) -= numerator * 16_i64.pow(pow);
+                }
+                out.push(DICT[numerator as usize]);
+            } else {
+                out.push('0');
+            }
+            if pow == 0 {
+                break
+            }
+            *(&mut pow) -= 1;
+        }
+
+        out.trim_start_matches('0').to_string()
+    }
+
+    assert_eq!(to_hex(0), "0".to_string());
+    assert_eq!(to_hex(16), "10".to_string());
+    assert_eq!(to_hex(26), "1a".to_string());
+    assert_eq!(to_hex(-1), "ffffffff".to_string());
+    assert_eq!(to_hex(-100), "ffffff9c".to_string());
 }
