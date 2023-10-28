@@ -994,40 +994,30 @@ fn add_binary() {
 
 #[test]
 fn toHex() {
-    // Better impl would be to iter over bytes and convert every 4bits to u
-    const DICT: [char; 16] = [
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
-    ];
     pub fn to_hex(num: i32) -> String {
+        fn u8_to_hex(byte: u8) -> char {
+            match byte {
+                0..=9 => char::from(b'0' + byte),
+                _ => char::from(b'a' + byte - 10),
+            }
+        }
+
         if num == 0 {
             return "0".to_string();
         }
 
-        let mut num = num as i64;
+        let mut hex = String::new();
 
-        if num < 0 {
-            *(&mut num) = 16_i64.pow(7) * 16 + (num as i64);
-        }
+        num.to_be_bytes().iter().for_each(|byte| {
+            // right shift by 4 and take the last 4
+            let left_4_bits: u8 = (byte >> 4) & 0xf;
+            // take the last 4
+            let right_4_bits = byte & 0xf;
+            hex.push(u8_to_hex(left_4_bits));
+            hex.push(u8_to_hex(right_4_bits));
+        });
 
-        let mut out = String::new();
-        let mut pow: u32 = 7;
-        loop {
-            if num > 0 {
-                let numerator = num / 16_i64.pow(pow);
-                if numerator > 0 {
-                    *(&mut num) -= numerator * 16_i64.pow(pow);
-                }
-                out.push(DICT[numerator as usize]);
-            } else {
-                out.push('0');
-            }
-            if pow == 0 {
-                break
-            }
-            *(&mut pow) -= 1;
-        }
-
-        out.trim_start_matches('0').to_string()
+        hex.trim_start_matches('0').to_string()
     }
 
     assert_eq!(to_hex(0), "0".to_string());
