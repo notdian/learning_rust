@@ -1026,3 +1026,33 @@ fn toHex() {
     assert_eq!(to_hex(-1), "ffffffff".to_string());
     assert_eq!(to_hex(-100), "ffffff9c".to_string());
 }
+
+#[test]
+fn majorityElement() {
+    pub fn majority_element(mut nums: Vec<i32>) -> i32 {
+        let mut current_elem = nums.pop().unwrap();
+        let mut count = 1;
+
+        for &elem in nums.iter() {
+            if current_elem == elem {
+                count += 1;
+            } else {
+                count -= 1;
+                if count == 0 {
+                    current_elem = elem;
+                    count = 1;
+                }
+            }
+        }
+        current_elem
+    }
+
+    assert_eq!(majority_element(vec![3, 2, 3]), 3);
+    assert_eq!(majority_element(vec![2, 2, 1, 1, 1, 2, 2]), 2);
+    assert_eq!(
+        majority_element(vec![
+            6, 6, 6, 3, 2, 3, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 4, 3, 2
+        ]),
+        6
+    );
+}
