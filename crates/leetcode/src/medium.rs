@@ -1,7 +1,5 @@
 #![allow(non_snake_case)]
 
-use std::vec;
-
 #[test]
 fn addTwoNumbers() {
     // Definition for singly-linked list.
@@ -110,14 +108,23 @@ pub fn groupAnagrams() {
     const N_LETTERS: usize = (b'z' - b'a' + 1) as _;
 
     pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {
-        strs.into_iter().fold(std::collections::HashMap::<[u8; N_LETTERS], Vec<String>>::new(), |mut map, s| {
-            let freqs = s.bytes().map(|b| (b - b'a') as usize).fold([0; N_LETTERS], |mut freqs, bin| {
-                freqs[bin] += 1;
-                freqs
-            });
-            map.entry(freqs).or_default().push(s);
-            map
-        }).into_values().collect()
+        strs.into_iter()
+            .fold(
+                std::collections::HashMap::<[u8; N_LETTERS], Vec<String>>::new(),
+                |mut map, s| {
+                    let freqs = s.bytes().map(|b| (b - b'a') as usize).fold(
+                        [0; N_LETTERS],
+                        |mut freqs, bin| {
+                            freqs[bin] += 1;
+                            freqs
+                        },
+                    );
+                    map.entry(freqs).or_default().push(s);
+                    map
+                },
+            )
+            .into_values()
+            .collect()
     }
     assert_eq!(
         group_anagrams(vec![
@@ -134,4 +141,36 @@ pub fn groupAnagrams() {
             vec!["bat".to_string()],
         ]
     )
+}
+
+#[test]
+fn simplifyPath() {
+    pub fn simplify_path(path: String) -> String {
+        let mut output: Vec<&str> = vec![""];
+        for dir in path.split("/") {
+            if dir == ".." {
+                if output.len() > 1 {
+                    output.pop();
+                }
+                continue;
+            }
+            if dir == "." || dir == "" {
+                continue;
+            }
+            output.push(dir);
+        }
+
+        if output.len() == 1 {
+            return "/".to_string();
+        }
+        output.join("/")
+    }
+    assert_eq!(simplify_path("/home/dian".to_string()), "/home/dian".to_string());
+    assert_eq!(simplify_path("/home/dian/./../shkurte".to_string()), "/home/shkurte".to_string());
+    assert_eq!(simplify_path("/home/../dian".to_string()), "/dian".to_string());
+    assert_eq!(simplify_path("/home//dian".to_string()), "/home/dian".to_string());
+    assert_eq!(simplify_path("/../home//dian".to_string()), "/home/dian".to_string());
+    assert_eq!(simplify_path("//".to_string()), "/".to_string());
+    assert_eq!(simplify_path("/..".to_string()), "/".to_string());
+    assert_eq!(simplify_path("/.".to_string()), "/".to_string());
 }
