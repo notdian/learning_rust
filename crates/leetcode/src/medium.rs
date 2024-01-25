@@ -165,12 +165,55 @@ fn simplifyPath() {
         }
         output.join("/")
     }
-    assert_eq!(simplify_path("/home/dian".to_string()), "/home/dian".to_string());
-    assert_eq!(simplify_path("/home/dian/./../shkurte".to_string()), "/home/shkurte".to_string());
-    assert_eq!(simplify_path("/home/../dian".to_string()), "/dian".to_string());
-    assert_eq!(simplify_path("/home//dian".to_string()), "/home/dian".to_string());
-    assert_eq!(simplify_path("/../home//dian".to_string()), "/home/dian".to_string());
+    assert_eq!(
+        simplify_path("/home/dian".to_string()),
+        "/home/dian".to_string()
+    );
+    assert_eq!(
+        simplify_path("/home/dian/./../shkurte".to_string()),
+        "/home/shkurte".to_string()
+    );
+    assert_eq!(
+        simplify_path("/home/../dian".to_string()),
+        "/dian".to_string()
+    );
+    assert_eq!(
+        simplify_path("/home//dian".to_string()),
+        "/home/dian".to_string()
+    );
+    assert_eq!(
+        simplify_path("/../home//dian".to_string()),
+        "/home/dian".to_string()
+    );
     assert_eq!(simplify_path("//".to_string()), "/".to_string());
     assert_eq!(simplify_path("/..".to_string()), "/".to_string());
     assert_eq!(simplify_path("/.".to_string()), "/".to_string());
+}
+
+#[test]
+fn lengthOfLongestSubstring() {
+    pub fn length_of_longest_substring(s: String) -> usize {
+        let mut seen = std::collections::HashMap::<char, usize>::new();
+        let mut result = 0;
+        let mut start = 0;
+
+        for (i, char) in s.chars().enumerate() {
+            if let Some(&startFrom) = seen.get(&char) {
+                if startFrom >= start {
+                    start = startFrom + 1;
+                }
+            }
+            result = std::cmp::max(i - start + 1, result);
+            seen.insert(char, i);
+        }
+        result
+    }
+    assert_eq!(length_of_longest_substring("abcabcbb".to_string()), 3);
+    assert_eq!(length_of_longest_substring("dvdf".to_string()), 3);
+    assert_eq!(length_of_longest_substring("bbbbbb".to_string()), 1);
+    assert_eq!(length_of_longest_substring("pwwkew".to_string()), 3);
+    assert_eq!(
+        length_of_longest_substring("ajskdjhjhsjjjjjshadasdkjiouyweuryoiuertnb".to_string()),
+        11
+    );
 }
