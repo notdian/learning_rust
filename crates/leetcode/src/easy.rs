@@ -1056,3 +1056,37 @@ fn majorityElement() {
         6
     );
 }
+
+#[test]
+fn countBinarySubstrings() {
+    pub fn count_binary_substrings(s: String) -> i32 {
+        let mut sequence = s.as_bytes().iter().map(|&bit| bit == '0' as u8);
+        let mut prev = sequence.next().unwrap();
+
+        let mut groups: Vec<i32> = vec![];
+        groups.push(1);
+        for curr in sequence {
+            if prev == curr {
+                *groups.last_mut().unwrap() += 1;
+            } else {
+                groups.push(1);
+            }
+
+            prev = curr;
+        }
+        let mut gIter = groups.iter();
+        let mut mins: Vec<i32> = vec![];
+        let mut prev = gIter.next().unwrap();
+        for curr in gIter {
+            mins.push(*prev.min(curr));
+            prev = curr;
+        }
+        mins.iter().sum()
+    }
+    assert_eq!(
+        count_binary_substrings("00110011010110110101".to_string()),
+        16
+    );
+    assert_eq!(count_binary_substrings("00110011".to_string()), 6);
+    assert_eq!(count_binary_substrings("10101".to_string()), 4);
+}
