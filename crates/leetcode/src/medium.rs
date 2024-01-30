@@ -230,26 +230,25 @@ fn countAndSay() {
 
     fn count_digits(n: &str) -> String {
         let mut digits: Vec<u8> = vec![0; n.len()];
-        let mut counts: Vec<usize> = vec![0; n.len()];
-        let mut i = None;
-        for char in n.chars() {
-            let num: u8 = u8::try_from(char).expect("the input str should be all digits")
-                - u8::try_from('0').unwrap();
-            if num != digits[i.unwrap_or(0)] {
-                i = match i {
-                    Some(i) => Some(i + 1),
-                    None => Some(0),
-                };
-                digits[i.unwrap()] = num
+        let mut counts: Vec<u8> = vec![0; n.len()];
+        const ZERO_INDEX: u8 = '0' as u8;
+        let mut nums = n.as_bytes().iter().map(|char| char - ZERO_INDEX);
+        let mut i = 0;
+        digits[i] = nums.next().unwrap();
+        counts[i] = 1;
+        for num in nums {
+            if num != digits[i] {
+                i += 1;
+                digits[i] = num
             }
-            counts[i.unwrap()] += 1;
+            counts[i] += 1;
         }
-        let mut out = String::new();
-        for digit in 0..=i.unwrap() {
-            out.push_str(usize::to_string(&counts[digit]).as_str());
-            out.push_str(u8::to_string(&digits[digit]).as_str());
+        let mut result: String = String::new();
+        for digit in 0..=i {
+            result.push_str(u8::to_string(&counts[digit]).as_str());
+            result.push_str(u8::to_string(&digits[digit]).as_str());
         }
-        out
+        result
     }
     assert_eq!(count_and_say(1), "1".to_string());
     assert_eq!(count_and_say(2), "11".to_string());
