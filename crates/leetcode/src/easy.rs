@@ -1062,7 +1062,6 @@ fn countBinarySubstrings() {
     pub fn count_binary_substrings(s: String) -> i32 {
         let mut sequence = s.as_bytes().iter().map(|&bit| bit == '0' as u8);
         let mut prev = sequence.next().unwrap();
-
         let mut groups: Vec<i32> = vec![];
         groups.push(1);
         for curr in sequence {
@@ -1089,4 +1088,58 @@ fn countBinarySubstrings() {
     );
     assert_eq!(count_binary_substrings("00110011".to_string()), 6);
     assert_eq!(count_binary_substrings("10101".to_string()), 4);
+}
+
+#[test]
+fn generateParenthesis() {
+    pub fn generate_parenthesis(n: usize) -> Vec<String> {
+        let mut result = vec![];
+        fn generate_valid(result: &mut Vec<String>, n: usize, o: usize, c: usize, path: String) {
+            if o == n && c == n {
+                result.push(path);
+                return;
+            }
+
+            if o < n {
+                generate_valid(result, n, o + 1, c, format!("{}(", path));
+            }
+            if o > c {
+                generate_valid(result, n, o, c + 1, format!("{})", path));
+            }
+        }
+        generate_valid(&mut result, n, 0, 0, "".to_string());
+        result
+    }
+    let mut r0 = generate_parenthesis(3);
+    let mut t0 = vec![
+        "((()))".to_string(),
+        "(()())".to_string(),
+        "(())()".to_string(),
+        "()(())".to_string(),
+        "()()()".to_string(),
+    ];
+    r0.sort();
+    t0.sort();
+    assert_eq!(r0, t0);
+
+    let mut r1 = generate_parenthesis(4);
+    let mut t1 = vec![
+        "(((())))".to_string(),
+        "((()()))".to_string(),
+        "((())())".to_string(),
+        "((()))()".to_string(),
+        "(()(()))".to_string(),
+        "(()()())".to_string(),
+        "(()())()".to_string(),
+        "(())(())".to_string(),
+        "(())()()".to_string(),
+        "()((()))".to_string(),
+        "()(()())".to_string(),
+        "()(())()".to_string(),
+        "()()(())".to_string(),
+        "()()()()".to_string(),
+    ];
+    r1.sort();
+    t1.sort();
+    assert_eq!(r1, t1);
 }
