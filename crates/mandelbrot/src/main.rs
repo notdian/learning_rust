@@ -3,6 +3,7 @@ use std::{
     fs::File,
     ops::{Add, Mul, Sub},
     str::FromStr,
+    thread::available_parallelism,
 };
 
 use image::{png::PNGEncoder, ColorType};
@@ -70,7 +71,7 @@ fn main() {
 
     let mut pixels = vec![0; bounds.0 * bounds.1];
 
-    let threads = num_cpus::get_physical();
+    let threads = available_parallelism().unwrap();
     let rows_per_band = bounds.1 / threads + 1; //height / threads + 1
 
     let bands: Vec<&mut [u8]> = pixels.chunks_mut(rows_per_band * bounds.0).collect();

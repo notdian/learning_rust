@@ -230,7 +230,6 @@ dependencies = [
  "image",
  "num",
  "num-traits 0.2.18",
- "num_cpus",
 ]
 
 [[package]]
