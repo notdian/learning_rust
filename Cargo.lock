@@ -166,12 +166,9 @@ dependencies = [
 
 [[package]]
 name = "hermit-abi"
-version = "0.2.6"
+version = "0.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ee512640fe35acbfb4bb779db6f0d80704c2cacfa2e39b601ef3e3f47d1ae4c7"
-dependencies = [
- "libc",
-]
+checksum = "d231dfb89cfffdbc30e7fc41579ed6066ad03abda9e567ccafae602b97ec5024"
 
 [[package]]
 name = "image"
@@ -232,6 +229,8 @@ dependencies = [
  "crossbeam",
  "image",
  "num",
+ "num-traits 0.2.18",
+ "num_cpus",
 ]
 
 [[package]]
@@ -254,7 +253,7 @@ dependencies = [
  "num-integer",
  "num-iter",
  "num-rational 0.4.1",
- "num-traits 0.2.15",
+ "num-traits 0.2.18",
 ]
 
 [[package]]
@@ -265,7 +264,7 @@ checksum = "f93ab6289c7b344a8a9f60f88d80aa20032336fe78da341afc91c8a2341fc75f"
 dependencies = [
  "autocfg",
  "num-integer",
- "num-traits 0.2.15",
+ "num-traits 0.2.18",
 ]
 
 [[package]]
@@ -274,7 +273,7 @@ version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7ae39348c8bc5fbd7f40c727a9925f03517afd2ab27d46702108b6a7e5414c19"
 dependencies = [
- "num-traits 0.2.15",
+ "num-traits 0.2.18",
 ]
 
 [[package]]
@@ -284,7 +283,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "225d3389fb3509a24c93f5c29eb6bde2586b98d9f016636dff58d7c6f7569cd9"
 dependencies = [
  "autocfg",
- "num-traits 0.2.15",
+ "num-traits 0.2.18",
 ]
 
 [[package]]
@@ -295,7 +294,7 @@ checksum = "7d03e6c028c5dc5cac6e2dec0efda81fc887605bb3d884578bb6d6bf7514e252"
 dependencies = [
  "autocfg",
  "num-integer",
- "num-traits 0.2.15",
+ "num-traits 0.2.18",
 ]
 
 [[package]]
@@ -305,7 +304,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ee314c74bd753fc86b4780aa9475da469155f3848473a261d2d18e35245a784e"
 dependencies = [
  "num-integer",
- "num-traits 0.2.15",
+ "num-traits 0.2.18",
 ]
 
 [[package]]
@@ -317,7 +316,7 @@ dependencies = [
  "autocfg",
  "num-bigint",
  "num-integer",
- "num-traits 0.2.15",
+ "num-traits 0.2.18",
 ]
 
 [[package]]
@@ -326,23 +325,23 @@ version = "0.1.43"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "92e5113e9fd4cc14ded8e499429f396a20f98c772a47cc8622a736e1ec843c31"
 dependencies = [
- "num-traits 0.2.15",
+ "num-traits 0.2.18",
 ]
 
 [[package]]
 name = "num-traits"
-version = "0.2.15"
+version = "0.2.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "578ede34cf02f8924ab9447f50c28075b4d3e5b269972345e7e0372b38c6cdcd"
+checksum = "da0df0e5185db44f69b44f26786fe401b6c293d1907744beaa7fa62b2e5a517a"
 dependencies = [
  "autocfg",
 ]
 
 [[package]]
 name = "num_cpus"
-version = "1.15.0"
+version = "1.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0fac9e2da13b5eb447a6ce3d392f23a29d8694bff781bf03a16cd9ac8697593b"
+checksum = "4161fcb6d602d4d2081af7c3a45852d875a03dd337a6bfdd6e06407b61342a43"
 dependencies = [
  "hermit-abi",
  "libc",
